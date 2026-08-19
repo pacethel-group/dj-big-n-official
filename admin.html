@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DJ Big N - Private Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background:#0a0a0a;color:#fff;font-family:Arial;padding:15px;margin:0}
+h1{color:#ffcc00;text-align:center;margin:10px 0}
+.header{background:#111;padding:15px;border-radius:10px;border:1px solid #333;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.card{background:#171717;border:1px solid #2a2a2a;padding:15px;margin:12px 0;border-radius:12px}
+.accept{border-left:5px solid #00ff88}
+.review{border-left:5px solid #ffaa00}
+.reject{border-left:5px solid red;opacity:0.5}
+.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.b-accept{background:#00ff88;color:#000}
+.b-review{background:#ffaa00;color:#000}
+button{background:#ffcc00;color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer}
+#list{margin-top:20px}
+small{color:#888}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1 style="margin:0">DJ BIG N - BOOKINGS</h1>
+    <small>Pacethel Group | Owner: Philip Amadi</small>
+  </div>
+  <button onclick="loadBookings()">Refresh</button>
+</div>
+<div id="stats" style="display:flex;gap:10px;margin-top:15px"></div>
+<div id="list">Loading...</div>
+
+<script>
+async function loadBookings(){
+  const res = await fetch('/api/bookings');
+  if(res.status===401){ document.getElementById('list').innerHTML='<h2>Wrong password - refresh and try again</h2>'; return; }
+  const data = await res.json();
+  document.getElementById('stats').innerHTML = `
+    <div class="card" style="flex:1;text-align:center">Total: <b>${data.length}</b></div>
+    <div class="card" style="flex:1;text-align:center">Accept: <b>${data.filter(b=>b.classification=='ACCEPT').length}</b></div>
+    <div class="card" style="flex:1;text-align:center">Review: <b>${data.filter(b=>b.classification=='REVIEW').length}</b></div>
+  `;
+  if(data.length===0){ document.getElementById('list').innerHTML='<p>No bookings yet. Test the bouncer.</p>'; return; }
+  document.getElementById('list').innerHTML = data.slice().reverse().map(b=>`
+    <div class="card ${b.classification=='ACCEPT'?'accept':b.classification=='REVIEW'?'review':'reject'}">
+      <div style="display:flex;justify-content:space-between">
+        <h3 style="margin:0">${b.name}</h3>
+        <span class="badge ${b.classification=='ACCEPT'?'b-accept':'b-review'}">${b.classification} - ${b.tier||''}</span>
+      </div>
+      <p><b>Event:</b> ${b.eventType||b.event} | <b>Date:</b> ${b.date} | <b>Loc:</b> ${b.location}</p>
+      <p><b>Budget:</b> ${b.budget} | <b>Phone:</b> ${b.phone} | <b>Email:</b> ${b.email}</p>
+      <p>${b.audience||''} ${b.message||''}</p>
+      <small>${b.createdAt||b.time||''} | ${b.email||''}</small>
+    </div>
+  `).join('');
+}
+loadBookings();
+</script>
+</body>
+  </html>

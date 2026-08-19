@@ -1,8 +1,8 @@
-# dj-bigN-official
+# dj-big-n-official
 DJ Big N Official Website
 Official website for DJ Big N — Live mixes, bookings, and profile.
 
-🔗 Live Site: https://pacethel-group.github.io/dj-bigN-official/
+🔗 Live Site: https://pacethel-group.github.io/dj-big-n-official/
 
 Features
 Mobile responsive (works on iPhone 17 pro max + all phones)
@@ -16,7 +16,7 @@ Tailwind CSS
 JavaScript
 GitHub Pages
 How To Use
-Open https://pacethel-group.github.io/dj-bigN-official/
+Open https://pacethel-group.github.io/dj-big-n-official/
 Book DJ Big N for events via contact section
 Backend
 Node.js + Express API for bookings
@@ -27,7 +27,7 @@ POST /api/contact - Send message
 Deploy backend on Render.com (free)
 
 Installation
-git clone https://github.com/pacethel-group/dj-bigN-official.git cd dj-big-n-official open index.html
+git clone https://github.com/pacethel-group/dj-big-n-official.git cd dj-big-n-official open index.html
 
 Developer
 Built by Philip Amadi Pacethel - 2026
